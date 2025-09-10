@@ -3,7 +3,7 @@
  *
  * This file is part of alarife-common.
  *
- * Licensed under the  (the "License");
+ * Licensed under the Apache 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License in the LICENSE file
  * at the root of this project.
