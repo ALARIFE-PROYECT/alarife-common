@@ -1,7 +1,7 @@
 {
-  "name": "alarife-common",
+  "name": "@alarife/common",
   "version": "0.1.0",
-  "author": "Jose Eduardo Soria Garcia <pepesoriagarcia99@gmail.com>",
+  "author": "Jose Eduardo Soria Garcia <alarifeproyect@gmail.com>",
   "license": "ISC",
   "private": false,
   "bin": {

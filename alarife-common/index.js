@@ -13,7 +13,7 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND.
  */
 
-if (process.argv.includes("deploy-yalc")) {
+if (process.argv.includes("deployment-yalc")) {
     require("./src/deployment.yalc");
 } else if (process.argv.includes("add-license")) {
   require("./src/add-license");
