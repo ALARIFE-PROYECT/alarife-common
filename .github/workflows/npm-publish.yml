@@ -7,20 +7,32 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'alarife-common/**'
 
 jobs:
   publish-npm:
+    name: Publish package
     runs-on: ubuntu-latest
+    concurrency:
+      group: publish-common
+      cancel-in-progress: true
+    permissions:
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org/
-      - name: Publish
-        run: npm publish --access public
+          always-auth: true
+      - name: Publish @alarife/common
         working-directory: alarife-common
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          npm publish --access public
