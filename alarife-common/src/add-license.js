@@ -18,7 +18,7 @@
  *
  * Usado en build:
  * Modifica el transpilado y agrega la licencia a todos los archivos .ts y .js.
- * common add-license --path=./lib --ext=.js,.ts --project-name=@bigbyte/utils --project-author="Jose Eduardo Soria" --project-license=Apache_2.0
+ * common add-license --path=./lib --ext=.js,.ts --project-name=@bigbyte/utils --project-author=Jose_Eduardo_Soria --project-license=Apache_2.0
  *
  * Usado en desarrollo:
  * Modifica todos los archivos .ts del proyecto actual (lee el package.jeson para obtener el nombre, autor y licencia).
