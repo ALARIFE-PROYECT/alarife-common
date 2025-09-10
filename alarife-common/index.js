@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /*
  * Copyright (c) 2025 Jose Eduardo Soria
  *
