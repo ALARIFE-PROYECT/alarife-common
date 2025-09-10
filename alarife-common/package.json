@@ -1,0 +1,17 @@
+{
+  "name": "alarife-common",
+  "version": "0.1.0",
+  "author": "Jose Eduardo Soria Garcia <pepesoriagarcia99@gmail.com>",
+  "license": "ISC",
+  "private": false,
+  "bin": {
+    "common": "./index.js"
+  },
+  "type": "commonjs",
+  "main": "./index.js",
+  "scripts": {},
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}
