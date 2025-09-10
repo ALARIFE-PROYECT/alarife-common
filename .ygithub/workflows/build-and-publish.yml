@@ -1,0 +1,41 @@
+name: Build & Publish
+
+on:
+  push:
+    branches:
+      - master   # O "main" según tu repo
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: 'https://registry.npmjs.org/'
+          always-auth: true
+
+      - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          echo "Buscando paquetes a publicar (excluyendo carpetas que empiezan por _ )"
+          for dir in */ ; do
+            base="$(basename "$dir")"
+            # Saltar carpetas que empiezan por _ y directorios ocultos
+            if [[ $base == _* ]] || [[ $base == .* ]]; then
+              echo "Omitiendo $base"
+              continue
+            fi
+            if [ -f "$dir/package.json" ]; then
+              echo "Publicando $dir"
+              (cd "$dir" && npm publish --access public || echo "Saltando $dir (posible versión ya publicada)")
+            else
+              echo "No package.json en $dir, se omite"
+            fi
+          done
