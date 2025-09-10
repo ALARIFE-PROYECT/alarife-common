@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Alarife proyect utilities",
   "author": "Jose Eduardo Soria Garcia <alarifeproyect@gmail.com>",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "private": false,
   "repository": {
     "type": "git",
