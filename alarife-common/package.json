@@ -1,17 +1,29 @@
 {
   "name": "@alarife/common",
   "version": "0.1.0",
+  "description": "Alarife proyect utilities",
   "author": "Jose Eduardo Soria Garcia <alarifeproyect@gmail.com>",
   "license": "ISC",
   "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ALARIFE-PROYECT/alarife-common.git"
+  },
+  "homepage": "https://github.com/ALARIFE-PROYECT/alarife-common#readme",
+  "bugs": {
+    "url": "https://github.com/ALARIFE-PROYECT/alarife-common/issues"
+  },
   "bin": {
     "common": "./index.js"
   },
   "type": "commonjs",
   "main": "./index.js",
+  "files": [
+    "index.js",
+    "src"
+  ],
   "scripts": {},
-  "dependencies": {
-  },
-  "devDependencies": {
-  }
+  "keywords": ["alarife", "common", "utils"],
+  "dependencies": {},
+  "devDependencies": {}
 }
