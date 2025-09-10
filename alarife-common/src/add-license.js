@@ -18,11 +18,11 @@
  *
  * Usado en build:
  * Modifica el transpilado y agrega la licencia a todos los archivos .ts y .js.
- * common add-license --path=./lib --ext=.js,.ts --project-name=@bigbyte/utils --project-author="Jose Eduardo Soria" --project-license=Apache 2.0 
+ * common add-license --path=./lib --ext=.js,.ts --project-name=@bigbyte/utils --project-author="Jose Eduardo Soria" --project-license=Apache_2.0
  *
  * Usado en desarrollo:
  * Modifica todos los archivos .ts del proyecto actual (lee el package.jeson para obtener el nombre, autor y licencia).
- * common add-license --path=./ --ext=.ts 
+ * common add-license --path=./ --ext=.ts
  *
  * Accion masiva:
  * Modifica todos los archivos .ts de todos los proyecots del repositorio.
@@ -30,7 +30,7 @@
  */
 
 const fs = require("fs");
-const path = require("path");
+const { join, isAbsolute, extname, basename } = require("path");
 
 const getArgvValue = (flag) => {
   let result = null;
@@ -38,7 +38,7 @@ const getArgvValue = (flag) => {
   process.argv.forEach((arg) => {
     if (arg.startsWith(`--${flag}=`)) {
       const [key, value] = arg.split("=");
-      result = value;
+      result = value.replaceAll('_', ' ');
     }
   });
 
@@ -61,11 +61,15 @@ const getLicenseText = (author, projectName, license) => `/*
  */`;
 
 const getPackageJson = (path) => {
-  const packagePath = path.join(path, "package.json");
-  const packageData = fs.readFileSync(packagePath, "utf8");
-  const packageJson = JSON.parse(packageData);
+  try {
+    const packagePath = path.join(path, "package.json");
+    const packageData = fs.readFileSync(packagePath, "utf8");
+    const packageJson = JSON.parse(packageData);
 
-  return packageJson;
+    return packageJson;
+  } catch (error) {
+    return null;
+  }
 };
 
 const writeLicense = (project, ext) => {
@@ -93,12 +97,12 @@ const writeLicense = (project, ext) => {
     const items = fs.readdirSync(dirPath);
 
     items.forEach((item) => {
-      const itemPath = path.join(dirPath, item);
+      const itemPath = join(dirPath, item);
       const stats = fs.statSync(itemPath);
 
       if (stats.isDirectory()) {
         processDirectory(itemPath);
-      } else if (stats.isFile() && path.extname(itemPath) === ext) {
+      } else if (stats.isFile() && extname(itemPath) === ext) {
         const currentContent = fs.readFileSync(itemPath, "utf8");
 
         // Verificar si el texto ya existe al inicio del archivo
@@ -135,21 +139,21 @@ if (!argvPath) {
   throw new Error("You must specify --path to process.");
 }
 
-const rootProjectsPath = path.isAbsolute(rootPath)
-  ? rootPath
-  : path.join(process.cwd(), rootPath);
+const rootProjectsPath = isAbsolute(argvPath)
+  ? argvPath
+  : join(process.cwd(), argvPath);
 const rootFiles = fs.readdirSync(rootProjectsPath, { withFileTypes: true });
 const rootDirs = rootFiles.filter((item) => item.isDirectory());
 
 const projects = [];
 rootDirs.forEach((dir) => {
-  const packagePath = path.join(rootProjectsPath, dir.name, "package.json");
+  const packagePath = join(rootProjectsPath, dir.name, "package.json");
 
   if (fs.existsSync(packagePath)) {
-    const packageJson = getPackageJson(path.join(rootProjectsPath, dir.name));
+    const packageJson = getPackageJson(join(rootProjectsPath, dir.name));
     projects.push({
       dirName: dir.name,
-      path: path.join(rootProjectsPath, dir.name),
+      path: join(rootProjectsPath, dir.name),
       projectName: packageJson.name,
       projectAuthor: packageJson.author ?? projectAuthor,
       projectLicense: packageJson.license ?? projectLicense,
@@ -160,26 +164,30 @@ rootDirs.forEach((dir) => {
 if (projects.length > 0) {
   launch(projects);
 } else {
-  const completeProjectPath = path.isAbsolute(argvPath)
+  const completeProjectPath = isAbsolute(argvPath)
     ? argvPath
-    : path.join(process.cwd(), argvPath);
+    : join(process.cwd(), argvPath);
 
   const packageJson = getPackageJson(completeProjectPath);
-  if(packageJson) {
-    launch([{
-      dirName: path.basename(completeProjectPath),
-      path: completeProjectPath,
-      projectName: packageJson.name,
-      projectAuthor: packageJson.author,
-      projectLicense: packageJson.license,
-    }]);
+  if (packageJson) {
+    launch([
+      {
+        dirName: basename(completeProjectPath),
+        path: completeProjectPath,
+        projectName: packageJson.name,
+        projectAuthor: packageJson.author,
+        projectLicense: packageJson.license,
+      },
+    ]);
   } else {
-    launch([{
-      dirName: path.basename(completeProjectPath),
-      path: completeProjectPath,
-      projectName: argvProjectName,
-      projectAuthor: argvProjectAuthor,
-      projectLicense: argvProjectLicense,
-    }]);
+    launch([
+      {
+        dirName: basename(completeProjectPath),
+        path: completeProjectPath,
+        projectName: argvProjectName,
+        projectAuthor: argvProjectAuthor,
+        projectLicense: argvProjectLicense,
+      },
+    ]);
   }
 }
