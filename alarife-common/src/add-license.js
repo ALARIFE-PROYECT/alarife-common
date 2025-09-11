@@ -129,9 +129,6 @@ const writeLicense = (project, ext) => {
             newContent = licenseText + "\n\n" + currentContent;
           }
 
-          //  const firstLine = '#!/';
-
-          //   const newContent = licenseText + "\n\n" + currentContent;
           fs.writeFileSync(itemPath, newContent, "utf8");
         }
       }
