@@ -62,8 +62,7 @@ const getLicenseText = (author, projectName, license) => `/*
 
 const getPackageJson = (path) => {
   try {
-    const packagePath = path.join(path, "package.json");
-    const packageData = fs.readFileSync(packagePath, "utf8");
+    const packageData = fs.readFileSync(path, "utf8");
     const packageJson = JSON.parse(packageData);
 
     return packageJson;
@@ -150,7 +149,7 @@ rootDirs.forEach((dir) => {
   const packagePath = join(rootProjectsPath, dir.name, "package.json");
 
   if (fs.existsSync(packagePath)) {
-    const packageJson = getPackageJson(join(rootProjectsPath, dir.name));
+    const packageJson = getPackageJson(packagePath);
     projects.push({
       dirName: dir.name,
       path: join(rootProjectsPath, dir.name),
