@@ -16,8 +16,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const sourceDirArgv = process.argv[2];
-const destDirArgv = process.argv[3];
+const sourceDirArgv = process.argv[3];
+const destDirArgv = process.argv[4];
 
 if(!sourceDirArgv || !destDirArgv) {
     console.log('Please enter the source and destination folder path.');
@@ -25,8 +25,8 @@ if(!sourceDirArgv || !destDirArgv) {
 }
 
 // Ruta de la carpeta de origen y destino
-const sourceDir = path.join(__dirname, sourceDirArgv);
-const destDir = path.join(__dirname, destDirArgv);
+const sourceDir = path.join(process.env.PWD, sourceDirArgv);
+const destDir = path.join(process.env.PWD, destDirArgv);
 
 // Función para copiar archivos
 function copyFileSync(source, target) {
