@@ -38,7 +38,7 @@ const getArgvValue = (flag) => {
   process.argv.forEach((arg) => {
     if (arg.startsWith(`--${flag}=`)) {
       const [key, value] = arg.split("=");
-      result = value.replaceAll('_', ' ');
+      result = value.replaceAll("_", " ");
     }
   });
 
@@ -105,8 +105,33 @@ const writeLicense = (project, ext) => {
         const currentContent = fs.readFileSync(itemPath, "utf8");
 
         // Verificar si el texto ya existe al inicio del archivo
-        if (!currentContent.includes('Copyright (c)') && !currentContent.includes('You may obtain a copy of the License in the LICENSE file')) {
-          const newContent = licenseText + "\n\n" + currentContent;
+        if (
+          !currentContent.includes("Copyright (c)") &&
+          !currentContent.includes(
+            "You may obtain a copy of the License in the LICENSE file"
+          )
+        ) {
+          let newContent;
+
+          if (
+            currentContent.startsWith("#!/") ||
+            currentContent.startsWith("use strict")
+          ) {
+            const firstLineEnd = currentContent.indexOf("\n");
+            const shebangLine =
+              firstLineEnd !== -1
+                ? currentContent.slice(0, firstLineEnd)
+                : currentContent;
+            const rest =
+              firstLineEnd !== -1 ? currentContent.slice(firstLineEnd + 1) : "";
+            newContent = shebangLine + "\n" + licenseText + "\n\n" + rest;
+          } else {
+            newContent = licenseText + "\n\n" + currentContent;
+          }
+
+          //  const firstLine = '#!/';
+
+          //   const newContent = licenseText + "\n\n" + currentContent;
           fs.writeFileSync(itemPath, newContent, "utf8");
         }
       }
