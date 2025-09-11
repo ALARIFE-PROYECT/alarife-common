@@ -46,7 +46,7 @@ const getArgvValue = (flag) => {
 };
 
 const getLicenseText = (author, projectName, license) => `/*
- * Copyright (c) 2025 ${author}
+ * Copyright (c) ${new Date().getFullYear()} ${author}
  *
  * This file is part of ${projectName}.
  *
@@ -105,7 +105,7 @@ const writeLicense = (project, ext) => {
         const currentContent = fs.readFileSync(itemPath, "utf8");
 
         // Verificar si el texto ya existe al inicio del archivo
-        if (!currentContent.startsWith(licenseText.trim())) {
+        if (!currentContent.includes('Copyright (c)') && !currentContent.includes('You may obtain a copy of the License in the LICENSE file')) {
           const newContent = licenseText + "\n\n" + currentContent;
           fs.writeFileSync(itemPath, newContent, "utf8");
         }

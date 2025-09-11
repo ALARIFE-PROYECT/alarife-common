@@ -35,8 +35,8 @@ Examples:
 # All folders must have a package.json
 npx alarife-common add-license --path=./packages --ext=.ts
 
-# Single project (.ts and .js)
-npx alarife-common add-license --path=./utils/lib --project-name=@bigbyte/utils --project-author="Jose Eduardo Soria" --project-license=Apache_2.0 --ext=.ts,.js
+# Single project (.ts and .js), the _ are replaced by spaces
+npx alarife-common add-license --path=./utils/lib --project-name=@bigbyte/utils --project-author=Jose_Eduardo_Soria --project-license=Apache_2.0 --ext=.ts,.js
 ```
 
 ---
