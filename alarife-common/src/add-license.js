@@ -18,7 +18,7 @@
  *
  * Usado en build:
  * Modifica el transpilado y agrega la licencia a todos los archivos .ts y .js.
- * common add-license --path=./lib --ext=.js,.ts --project-name=@bigbyte/utils --project-author="Jose Eduardo Soria" --project-license=Apache_2.0
+ * common add-license --path=./lib --ext=.js,.ts --project-name=@bigbyte/utils --project-author=Jose_Eduardo_Soria --project-license=Apache_2.0
  *
  * Usado en desarrollo:
  * Modifica todos los archivos .ts del proyecto actual (lee el package.jeson para obtener el nombre, autor y licencia).
@@ -62,8 +62,7 @@ const getLicenseText = (author, projectName, license) => `/*
 
 const getPackageJson = (path) => {
   try {
-    const packagePath = path.join(path, "package.json");
-    const packageData = fs.readFileSync(packagePath, "utf8");
+    const packageData = fs.readFileSync(path, "utf8");
     const packageJson = JSON.parse(packageData);
 
     return packageJson;
@@ -150,7 +149,7 @@ rootDirs.forEach((dir) => {
   const packagePath = join(rootProjectsPath, dir.name, "package.json");
 
   if (fs.existsSync(packagePath)) {
-    const packageJson = getPackageJson(join(rootProjectsPath, dir.name));
+    const packageJson = getPackageJson(packagePath);
     projects.push({
       dirName: dir.name,
       path: join(rootProjectsPath, dir.name),
